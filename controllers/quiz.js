@@ -153,3 +153,66 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+
+exports.randomplay = (req, res, next) => {
+
+    req.session.randomPlay = req.session.randomPlay || [];
+    // Whichever thing i want to remember
+    // Start wiith
+    // Store questions of the answer i have answered
+
+    // Pick a random number
+    const whereOpt = {'id': {[Sequelize.Op.notIn]: req.session.randomPlay()}};
+    models.quiz.count({where: whereOpt})
+        .then(function (count) {
+            return models.quiz.findAll({
+                where: wehreOpt,
+                offset: Math.floor(Math.random() * count),
+                limit: 1
+            })
+                .then(function (quizzes) {
+                    return quizzes[0];
+                });
+        })
+    .then(function(quiz) =>
+
+        res.render('quizzes/random_paly',{ //Index random cehck tal
+            quiz: quizzes[0],
+            score: req.sesion.randomPlay.lenght
+        })
+    });
+        .catch(error => next(error));
+
+
+)
+
+    models.quiz.findAll()
+
+
+// Simple random play
+
+// exports.randomplay = (req, res, next) => {
+//
+//     req.session.randomPlay = req.session.randomPlay || [];
+//     // Whichever thing i want to remember
+//     // Start wiith
+//     // Store questions of the answer i have answered
+//
+//     // Pick a random number
+//
+//     models.quiz.findAll()
+//         .then(quizzes =>
+//
+//             res.render('quizzes/random_paly',{ //Index random cehck tal
+//                 quiz: quizzes[0],
+//                 score: 33
+//             })
+//
+//                 .catch(error => next(error));
+// };
+
+exports.randomcheck = (req, res, next) => {
+
+    mnxt('kk');
+
+}
